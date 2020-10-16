@@ -1,5 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, View, Button, Text, Image } from "react-native";
 
@@ -50,15 +51,23 @@ const DrawerContent = props => {
         </View>
         <DrawerItem
           label="Dashboard"
+          labelStyle={{ marginLeft: -16 }}
           onPress={() => props.navigation.navigate('Dashboard')}
+          icon={() => <AntDesign name="dashboard" color="black" size={16}/>}
         />
         <DrawerItem
           label="Messages"
+          labelStyle={{ marginLeft: -16 }}
           onPress={() => props.navigation.navigate('Messages')}
+          icon={() => <AntDesign name="message1" color="black" size={16}/>}
+
         />
         <DrawerItem
           label="Contact"
+          labelStyle={{ marginLeft: -16 }}
           onPress={() => props.navigation.navigate('Contact')}
+          icon={() => <AntDesign name="phone" color="black" size={16}/>}
+
         />
       </View>
     </DrawerContentScrollView>
