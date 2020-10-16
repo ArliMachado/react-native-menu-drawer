@@ -1,6 +1,7 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Feater from "react-native-vector-icons/dist/Feather";
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, View, Button, Text, Image } from "react-native";
 
@@ -19,8 +20,13 @@ const Screens = ({ navigation}) => {
         headerTransparent: true,
         headerTitle: null,
         headerLeft: () => (
-          <Button title='Menu' onPress={() => navigation.openDrawer()}>
-          </Button>
+          <Feater
+            name="menu"
+            size={25}
+            color="#071E22"
+            style={styles.button}
+            onPress={() => navigation.openDrawer()}
+          />
         )
       }}
     >
@@ -76,8 +82,8 @@ const DrawerContent = props => {
 
 const styles = StyleSheet.create({
   button: {
-    color: '#071E22',
-    fontSize: 12
+    marginTop: 15,
+    marginLeft: 10,
 
   },
 
