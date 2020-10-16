@@ -28,25 +28,39 @@ const Screens = ({ navigation}) => {
       <Stack.Screen name="Contact" component={Contact} />
     </Stack.Navigator>
   )
-  
+
 }
 
 const DrawerContent = props => {
   return (
     <DrawerContentScrollView {...props} >
-      {/* <DrawerItemList {...props} /> */}
-      <DrawerItem
-        label="Dashboard"
-        onPress={() => props.navigation.navigate('Dashboard')}
-      />
-      <DrawerItem
-        label="Messages"
-        onPress={() => props.navigation.navigate('Messages')}
-      />
-      <DrawerItem
-        label="Contact"
-        onPress={() => props.navigation.navigate('Contact')}
-      />
+      <View>
+        <View style={styles.avatarContent}>
+          <Image source={{
+            uri:
+              "https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png",
+            height: 60,
+            width: 60
+          }}
+          resizeMode="center"
+          style={styles.avatar}
+          />
+          <Text style={styles.avatarText}>Usuario</Text>
+          <Text style={styles.avatarTextContact}>usuario@mail.com</Text>
+        </View>
+        <DrawerItem
+          label="Dashboard"
+          onPress={() => props.navigation.navigate('Dashboard')}
+        />
+        <DrawerItem
+          label="Messages"
+          onPress={() => props.navigation.navigate('Messages')}
+        />
+        <DrawerItem
+          label="Contact"
+          onPress={() => props.navigation.navigate('Contact')}
+        />
+      </View>
     </DrawerContentScrollView>
   )
 }
@@ -57,8 +71,22 @@ const styles = StyleSheet.create({
     fontSize: 12
 
   },
-  buttonText: {
-    color: '#FFF',
+
+  avatarContent: {
+    flex: 0.4,
+    margin: 20,
+    marginBottom: 50,
+  },
+  avatar: {
+    borderRadius: 30
+  },
+
+  avatarText: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  avatarTextContact: {
+    fontSize: 12,
   }
 })
 
