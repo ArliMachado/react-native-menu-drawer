@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feater from "react-native-vector-icons/dist/Feather";
@@ -8,32 +8,35 @@ import { StyleSheet, View, Button, Text, Image } from "react-native";
 import Dashboard from "./screens/Dashboard";
 import Messages from "./screens/Messages";
 import Contact from "./screens/Contact";
+import Animated from 'react-native-reanimated';
 // import { Container } from './styles';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const Screens = ({ navigation}) => {
+const Screens = ({ navigation, style}) => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerTransparent: true,
-        headerTitle: null,
-        headerLeft: () => (
-          <Feater
-            name="menu"
-            size={25}
-            color="#071E22"
-            style={styles.button}
-            onPress={() => navigation.openDrawer()}
-          />
-        )
-      }}
-    >
-      <Stack.Screen name="Dashboard" component={Dashboard} />
-      <Stack.Screen name="Messages" component={Messages} />
-      <Stack.Screen name="Contact" component={Contact} />
-    </Stack.Navigator>
+    <Animated.View style={[styles.stack, style]}>
+      <Stack.Navigator
+        screenOptions={{
+          headerTransparent: true,
+          headerTitle: null,
+          headerLeft: () => (
+            <Feater
+              name="menu"
+              size={25}
+              color="#071E22"
+              style={styles.button}
+              onPress={() => navigation.openDrawer()}
+            />
+          )
+        }}
+      >
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="Messages" component={Messages} />
+        <Stack.Screen name="Contact" component={Contact} />
+      </Stack.Navigator>
+    </Animated.View>
   )
 
 }
@@ -81,6 +84,9 @@ const DrawerContent = props => {
 }
 
 const styles = StyleSheet.create({
+  stack: {
+    flex: 1,
+  },
   button: {
     marginTop: 15,
     marginLeft: 10,
@@ -106,9 +112,36 @@ const styles = StyleSheet.create({
 })
 
 export default () => {
+  //33,34
+  //https://www.youtube.com/watch?v=iD8N6cxyffw&t=252s
+  const [progress, setProgress] = useState(new Animated.Value(0));
+
+  const scale = Animated.interpolate(progress, {
+    inputRange: [0, 1],
+    outputRange: [1, 0.8]
+  });
+
+  const screensStyles = { transform: [{ scale }]};
+
   return (
-    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={(props) => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Screens" component={Screens} />
+    <Drawer.Navigator
+      drawerType="slide"
+      overlayColor="transparent"
+      initialRouteName="Dashboard"
+      drawerContentOptions={{
+        activeBackgroundColor: "transparent",
+        activeTintColor: "green",
+        inactiveTintColor: "green"
+      }}
+      drawerContent={props => {
+        setTimeout(() => {
+          setProgress(props.progress);
+        }, 100)
+        return <DrawerContent {...props} />
+      }}>
+      <Drawer.Screen name="Screens">
+        {props => <Screens {...props} style={screensStyles} />}
+      </Drawer.Screen>
     </Drawer.Navigator>
   )
 }
