@@ -3,7 +3,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@rea
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feater from "react-native-vector-icons/dist/Feather";
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, View, Button, Text, Image } from "react-native";
+import { Dimensions , StyleSheet, View, Text, Image } from "react-native";
 
 import Dashboard from "./screens/Dashboard";
 import Messages from "./screens/Messages";
@@ -84,8 +84,13 @@ const DrawerContent = props => {
 }
 
 const styles = StyleSheet.create({
+  drawer: {
+    width: Dimensions.get('window').width/2,
+    backgroundColor: 'transparent'
+  },
   stack: {
     flex: 1,
+    overflow: 'hidden'
   },
   button: {
     marginTop: 15,
@@ -121,27 +126,37 @@ export default () => {
     outputRange: [1, 0.8]
   });
 
-  const screensStyles = { transform: [{ scale }]};
+  const borderRadius = Animated.interpolate(progress, {
+    inputRange: [0, 1],
+    outputRange: [0, 10]
+  });
+
+  const screensStyles = { borderRadius, transform: [{ scale }]};
 
   return (
-    <Drawer.Navigator
-      drawerType="slide"
-      overlayColor="transparent"
-      initialRouteName="Dashboard"
-      drawerContentOptions={{
-        activeBackgroundColor: "transparent",
-        activeTintColor: "green",
-        inactiveTintColor: "green"
-      }}
-      drawerContent={props => {
-        setTimeout(() => {
-          setProgress(props.progress);
-        }, 100)
-        return <DrawerContent {...props} />
-      }}>
-      <Drawer.Screen name="Screens">
-        {props => <Screens {...props} style={screensStyles} />}
-      </Drawer.Screen>
-    </Drawer.Navigator>
+      <View style={{ flex: 1, backgroundColor: '#33FCFF'}}>
+        <Drawer.Navigator
+          drawerStyle={styles.drawer}
+          drawerType="slide"
+          overlayColor="transparent"
+          initialRouteName="Dashboard"
+          sceneContainerStyle={{ flex: 1}}
+          drawerContentOptions={{
+            activeBackgroundColor: "transparent",
+            activeTintColor: "green",
+            inactiveTintColor: "green"
+          }}
+          sceneContainerStyle={{ backgroundColor: "transparent"}}
+          drawerContent={props => {
+            setTimeout(() => {
+              setProgress(props.progress);
+            }, 100)
+            return <DrawerContent {...props} />
+          }}>
+              <Drawer.Screen name="Screens">
+                {props => <Screens {...props} style={screensStyles} />}
+              </Drawer.Screen>
+        </Drawer.Navigator>
+      </View>
   )
 }
